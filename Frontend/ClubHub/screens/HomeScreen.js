@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('            Menu      ');
+  const [selectedValue, setSelectedValue] = useState('Menu');
   const options = ['Home', 'Search', 'Notifications', 'Events'];
 
   const toggleDropdown = () => {
@@ -12,15 +15,20 @@ const HomeScreen = () => {
 
   const handleSelect = (option) => {
     setSelectedValue(option);
-    setIsOpen(false); // Close dropdown on selection
+    if (option === 'Events') {
+      navigation.navigate('Events');
+    } else if (option === 'Notifications') {
+      navigation.navigate('Notifications');
+    } else if (option === 'Search') {
+      navigation.navigate('Search'); // Navigate to SearchScreen
+    }
+    setIsOpen(false);
   };
 
   return (
     <View style={styles.container}>
-      {/* Green banner at the top */}
       <View style={styles.banner}>
         <Text style={styles.bannerText}>CLUB-HUB</Text>
-        {/* Custom dropdown implementation */}
         <TouchableOpacity onPress={toggleDropdown} style={styles.dropdownButton}>
           <Text style={styles.dropdownButtonText}>{selectedValue}</Text>
           {isOpen && (
@@ -34,9 +42,8 @@ const HomeScreen = () => {
           )}
         </TouchableOpacity>
       </View>
-      {/* Rest of your home screen content goes here */}
       <Image
-        source={require('/Users/nathanpaul/Documents/CSCE/School/CSCE3615/Frontend/ClubHub/assets/unt.jpg')} // Specify the source of your image
+        source={require('/Users/nathanpaul/Documents/CSCE/GitHub/ClubHub/Frontend/ClubHub/assets/unt.jpg')}
         style={styles.image}
       />
       <Text style={styles.contentText}>Welcome to CLUB-HUB!</Text>
@@ -47,14 +54,14 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', // Set background color to white
+    backgroundColor: 'white',
   },
   banner: {
     backgroundColor: 'green',
     padding: 10,
-    flexDirection: 'row', // Arrange elements horizontally
-    justifyContent: 'space-between', // Align items on opposite ends
-    alignItems: 'center', // Align vertically
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   bannerText: {
     fontSize: 20,
@@ -68,15 +75,16 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   dropdownMenu: {
-    position: 'absolute', // Position the menu below the button
-    top: 20, // Adjust positioning as needed
-    right: 0, // Align to the right side
-    backgroundColor: 'white', // Set background color
-    borderRadius: 5, // Add border radius for a softer look
+    position: 'absolute',
+    top: 40,
+    right: 0,
+    backgroundColor: 'white',
+    borderRadius: 5,
     shadowColor: '#ccc',
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.2,
-    shadowRadius: 5, // Add a slight shadow for depth
+    shadowRadius: 5,
+    width: 150,
   },
   dropdownMenuItem: {
     padding: 10,
@@ -88,15 +96,15 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 18,
-    marginTop: 20, // Adjust margin as needed
-    textAlign: 'center', // Center text
+    marginTop: 20,
+    textAlign: 'center',
     fontWeight: 'bold',
   },
   image: {
-    width: 200, // Adjust width as needed
-    height: 200, // Adjust height as needed
-    alignSelf: 'center', // Center the image horizontally
-    marginTop: 20, // Adjust margin as needed
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    marginTop: 150,
   },
 });
 
